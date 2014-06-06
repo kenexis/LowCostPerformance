@@ -1,0 +1,26 @@
+# Shift Capture Times
+#
+# This script shifts the capture times to align properly with the desired
+# packet loading values and timing offsets.  There are two EtherNet/IP
+# Class 1 I/O capture files created since the initial file is only 43
+# seconds in length.  The final versions of the capture files are all
+# 60 seconds in length.
+#
+# The values used to shift the capture files were all determined in the
+# Packet_Times.xlsx Excel spreadsheet.  The file times were all normalized
+# to a round number to make it easy to determine the first packet offset
+# times.
+#
+# The ARP burst packet capture file was offset by 20 seconds from the base
+# capture offset to establish a steady-state condition while conducting
+# performance tests before the burst occurs.
+
+editcap -t -1103.065903067 -F libpcap ARP_Burst.enc ARP_Burst2.pcap
+editcap -t -1.985088169 -F libpcap ARP_Request.enc ARP_Request2.pcap
+editcap -t -329.266213355 -F libpcap DHCP.enc DHCP2.pcap
+editcap -t -836.759909836 -F libpcap ENIP_Class1.enc ENIP_Class1-2.pcap
+editcap -t -793.937898950 -F libpcap ENIP_Class1.enc ENIP_Class1-3.pcap
+editcap -t -670.150598755 -F libpcap ENIP_ListIdentity.enc ENIP_ListIdentity2.pcap
+editcap -t -162.572689549 -F libpcap Gratuitous_ARP.enc Gratuitous_ARP2.pcap
+editcap -t -445.781404307 -F libpcap ICMP.enc ICMP2.pcap
+editcap -t -562.664155668 -F libpcap NTP.enc NTP2.pcap

@@ -1,0 +1,32 @@
+# Build Test Captures
+#
+# This script builds the traffic sets for the different test cases.  Each of
+# the test case capture files is then limited to 60 seconds.
+#
+# NOTE: For longer tests, you should use the shift_capture_times script to 
+# generate additional capture files for each set, then merge them with these
+# traffic captures.  This method is better than just running the test
+# capture files in a tcpreplay loop since there will be some packet alignment
+# and count errors introduced into the background traffic this way.
+
+rm test2_0000*.pcap test3_0000*.pcap test4_0000.pcap test5_0000*.pcap test2.pcap test3.pcap test4.pcap test5.pcap
+
+mergecap -w test2_ragged.pcap -F libpcap ARP_Request2.pcap DHCP2.pcap ENIP_ListIdentity2.pcap Gratuitous_ARP2.pcap ICMP2.pcap NTP2.pcap
+mergecap -w test3_ragged.pcap -F libpcap ARP_Request2.pcap DHCP2.pcap ENIP_ListIdentity2.pcap Gratuitous_ARP2.pcap ICMP2.pcap NTP2.pcap ENIP_Class1-2.pcap ENIP_Class1-3.pcap
+mergecap -w test4_ragged.pcap -F libpcap ARP_Request2.pcap DHCP2.pcap ENIP_ListIdentity2.pcap Gratuitous_ARP2.pcap ICMP2.pcap NTP2.pcap ARP_Burst2.pcap
+mergecap -w test5_ragged.pcap -F libpcap ARP_Request2.pcap DHCP2.pcap ENIP_ListIdentity2.pcap Gratuitous_ARP2.pcap ICMP2.pcap NTP2.pcap ENIP_Class1-2.pcap ENIP_Class1-3.pcap ARP_Burst2.pcap
+
+editcap -i 60.0 test2_ragged.pcap test2.pcap
+editcap -i 60.0 test3_ragged.pcap test3.pcap
+editcap -i 60.0 test4_ragged.pcap test4.pcap
+editcap -i 60.0 test5_ragged.pcap test5.pcap
+
+mv test2_00000* test2.pcap
+mv test3_00000* test3.pcap
+mv test4_00000* test4.pcap
+mv test5_00000* test5.pcap
+
+rm test2_00001*
+rm test3_00001*
+rm test4_00001*
+rm test5_00001*
